@@ -20,7 +20,7 @@ const LeftPanel = () => {
 
 					<div className='flex items-center gap-3'>
 						{isAuthenticated && <UserListDialog />}
-						<UserListDialog />
+						
 						<ThemeSwitch />
 					</div>
 				</div>
