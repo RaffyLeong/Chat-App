@@ -26,7 +26,8 @@ const ChatBubble = ({me,message, previousMessage}: ChatBubbleProps) => {
 	const isMember = selectedConversation?.participants.includes(message.sender._id) || false;
 	const isGroup = selectedConversation?.isGroup;
 	const fromMe = message.sender._id === me._id;
-	const bgClass = fromMe ? "bg-blue-400" : " dark: bg-gray-primary";
+	const bgClass = (message.messageType === "image" || message.messageType === "video") ? "" : 
+        (fromMe ? "bg-blue-500" : "bg-blue-500");
 
 	const [open, setOpen] = useState(false);
 
@@ -45,11 +46,12 @@ const ChatBubble = ({me,message, previousMessage}: ChatBubbleProps) => {
 
 	if(!fromMe) {
 		return (
+			//Other users Message
 			<>
 			<DateIndicator message={message} previousMessage={previousMessage} />
 			  <div className="flex gap-1 w-2/3">
 			  <ChatBubbleAvatar isGroup={isGroup} isMember={isMember} message={message} fromAI={false}/>
-			    <div className={`flex flex-col z-20 max-w-fit px-2 pt-1 rounded-full shadow-md relative ${bgClass}`}>
+			    <div className={`flex flex-col z-20 max-w-fit px-2 pt-1 rounded-xl shadow-md relative ${bgClass}`}>
 				<OtherMessageIndicator />
 				{isGroup && <ChatAvatarActions message={message} me={me} />}
 				{renderMessageContent()}
@@ -61,11 +63,12 @@ const ChatBubble = ({me,message, previousMessage}: ChatBubbleProps) => {
 		)
 	}
 		return (
+			//Self Message
 			<>
 			<DateIndicator message={message} previousMessage={previousMessage} />
 
 			  <div className="flex gap-1 w-2/3 ml-auto">
-			    <div className={`flex z-20 max-w-fit px-2 pt-1 rounded-full shadow-md ml-auto relative ${bgClass}`}>
+			    <div className={`flex z-20 max-w-fit px-2 pt-1 rounded-xl shadow-md ml-auto relative ${bgClass}`}>
 				  <SelfMessageIndicator />
 				  {renderMessageContent()}
 				  {open && <ImageDialog src={message.content} open={open} onClose={() => setOpen(false)} />}
@@ -146,7 +149,7 @@ const TextMessage = ({ message }: { message: IMessage }) => {
 					href={message.content}
 					target='_blank'
 					rel='noopener noreferrer'
-					className={`mr-2 text-sm font-light text-blue-400 underline`}
+					className={`mr-2 text-sm font-light text-blue-300 underline`}
 				>
 					{message.content}
 				</a>

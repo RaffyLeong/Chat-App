@@ -64,10 +64,6 @@ export const getMessages = query({
 
 		const messagesWithSender = await Promise.all(
 			messages.map(async (message) => {
-				if (message.sender === "ChatGPT") {
-					const image = message.messageType === "text" ? "/gpt.png" : "dall-e.png";
-					return { ...message, sender: { name: "ChatGPT", image } };
-				}
 				let sender;
 				// Check if sender profile is in cache
 				if (userProfileCache.has(message.sender)) {
